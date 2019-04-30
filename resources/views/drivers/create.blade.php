@@ -31,11 +31,30 @@
             <form method="POST" action="/drivers" accept-charset="UTF-8" role="form" class="needs-validation"><input name="_token" type="hidden" value="VU8f1YWsplMo5uJjxy43CyiLXF42765sxB6ft1xf">
                 @csrf
 
+                <div class="form-group has-feedback row">
+                    <label for="patrocinador" class="col-md-3 control-label">Patrocinador</label>
+                    <div class="col-md-9">
+                        <div class="input-group">
+                            @if ($patrocinadores)
+                                <select class="form-control" id="patrocinador_id" name="patrocinador_id">
+                                    @foreach ($patrocinadores as $patrocinador)
+                                        <option value="{{ $patrocinador->id }}">{{$patrocinador->email}}</option>
+
+                                    @endforeach
+                                </select>
+                            @else
+                                <p>No hay conductores registrados...</p>
+                                <input type="hidden" name="patrocinador_id" value="-1">
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
                 <div class="form-group has-feedback row ">
                     <label for="email" class="col-md-3 control-label">Correo electrónico</label>
                     <div class="col-md-9">
                         <div class="input-group">
-                            <input id="email" class="form-control" placeholder="Correo electrónico" name="email" type="text">
+                            <input id="email" class="form-control" placeholder="Correo electrónico" name="email" type="text" value="{{ old('email') }}">
                         </div>
                     </div>
                 </div>
@@ -44,7 +63,7 @@
                     <label for="name" class="col-md-3 control-label">Usuario</label>
                     <div class="col-md-9">
                         <div class="input-group">
-                            <input id="name" class="form-control" placeholder="Nombre de Usuario" name="name" type="text">
+                            <input id="name" class="form-control" placeholder="Nombre de Usuario" name="name" type="text" value="{{ old('name') }}">
                         </div>
                     </div>
                 </div>
@@ -53,7 +72,7 @@
                     <label for="first_name" class="col-md-3 control-label">Nombre</label>
                     <div class="col-md-9">
                         <div class="input-group">
-                            <input id="first_name" class="form-control" placeholder="Nombre" name="first_name" type="text">
+                            <input id="first_name" class="form-control" placeholder="Nombre" name="first_name" type="text" value="{{ old('first_name') }}">
                         </div>
                     </div>
                 </div>
@@ -62,7 +81,7 @@
                     <label for="last_name" class="col-md-3 control-label">Apellido</label>
                     <div class="col-md-9">
                         <div class="input-group">
-                            <input id="last_name" class="form-control" placeholder="Apellido" name="last_name" type="text">
+                            <input id="last_name" class="form-control" placeholder="Apellido" name="last_name" type="text" value="{{ old('last_name') }}">
                         </div>
                     </div>
                 </div>
@@ -71,7 +90,7 @@
                     <label for="cedula" class="col-md-3 control-label">Cédula</label>
                     <div class="col-md-9">
                         <div class="input-group">
-                            <input id="cedula" class="form-control" placeholder="Cédula" name="cedula" type="text">
+                            <input id="cedula" class="form-control" placeholder="Cédula" name="cedula" type="text" value="{{ old('cedula') }}">
                         </div>
                     </div>
                 </div>
@@ -81,7 +100,7 @@
                     <label for="pasaporte" class="col-md-3 control-label">Pasaporte</label>
                     <div class="col-md-9">
                         <div class="input-group">
-                            <input id="cedula" class="form-control" placeholder="Pasaporte" name="pasaporte" type="text">
+                            <input id="cedula" class="form-control" placeholder="Pasaporte" name="pasaporte" type="text" value="{{ old('pasaporte') }}">
                         </div>
                     </div>
                 </div>
@@ -91,7 +110,11 @@
                     <label for="genero" class="col-md-3 control-label">Género</label>
                     <div class="col-md-9">
                         <div class="input-group">
-                            <input id="genero" class="form-control" placeholder="Género" name="genero" type="text">
+                          <select class="custom-select form-control" name="genero" id="genero">
+                                  <option value="Hombre">Hombre</option>
+                                  <option value="Mujer">Mujer</option>
+                                  <option value="NoEspecifica">Prefiero no decir</option>
+                          </select>
                         </div>
                     </div>
                 </div>
@@ -101,7 +124,7 @@
                   <label for="direccion1" class="col-md-3 control-label">Dirección</label>
                   <div class="col-md-9">
                     <div class="input-group">
-                      <input id="direccion1" class="form-control" placeholder="Dirección" name="direccion1" type="text">
+                      <input id="direccion1" class="form-control" placeholder="Dirección" name="direccion1" type="text" value="{{ old('direccion1') }}">
                     </div>
                   </div>
                 </div>
@@ -111,7 +134,7 @@
                     <label for="nacimiento" class="col-md-3 control-label">Fecha de Nacimiento</label>
                     <div class="col-md-9">
                         <div class="input-group">
-                            <input id="genero" class="form-control" placeholder="Fecha de Nacimiento" name="nacimiento" type="date">
+                            <input id="genero" class="form-control" placeholder="Fecha de Nacimiento" name="nacimiento" type="date" value="{{ old('nacimiento') }}">
                         </div>
                     </div>
                 </div>
@@ -121,7 +144,7 @@
                     <label for="telefono" class="col-md-3 control-label">Teléfono</label>
                     <div class="col-md-9">
                         <div class="input-group">
-                            <input id="telefono" class="form-control" placeholder="Teléfono" name="telefono" type="text">
+                            <input id="telefono" class="form-control" placeholder="Teléfono" name="telefono" type="text" value="{{ old('telefono') }}">
                         </div>
                     </div>
                 </div>
@@ -131,7 +154,7 @@
                     <label for="celular" class="col-md-3 control-label">Celular</label>
                     <div class="col-md-9">
                         <div class="input-group">
-                            <input id="celular" class="form-control" placeholder="Celular" name="celular" type="text">
+                            <input id="celular" class="form-control" placeholder="Celular" name="celular" type="text" value="{{ old('celular') }}">
                         </div>
                     </div>
                 </div>
@@ -141,7 +164,7 @@
                     <label for="num_deposito" class="col-md-3 control-label">Número de Depósito</label>
                     <div class="col-md-9">
                         <div class="input-group">
-                            <input id="num_deposito" class="form-control" placeholder="Número de Depósito" name="num_deposito" type="text">
+                            <input id="num_deposito" class="form-control" placeholder="Número de Depósito" name="num_deposito" type="text" value="{{ old('num_deposito') }}">
                         </div>
                     </div>
                 </div>
@@ -166,7 +189,7 @@
                     </div>
                 </div>
 
-                <div class="form-group has-feedback row ">
+                <div class="form-group has-feedback row">
                     <label for="password" class="col-md-3 control-label">Contraseña</label>
                     <div class="col-md-9">
                         <div class="input-group">
@@ -193,7 +216,7 @@
                         </div>
                                                         </div>
                 </div>
-                <button class="btn btn-success margin-bottom-1 mb-1 float-right" type="submit">Create New User</button>
+                <button class="btn btn-success margin-bottom-1 mb-1 float-right" type="submit">Registrarme</button>
             </form>
         </div>
 

@@ -32,15 +32,15 @@
                 @csrf
 
                 <div class="form-group has-feedback row ">
-                    <label for="cedula" class="col-md-3 control-label">Cedula del Referido</label>
+                    <label for="correo_referido" class="col-md-3 control-label">Email del Referido</label>
                     <div class="col-md-9">
                         <div class="input-group">
-                            <input id="cedula" class="form-control" placeholder="Cedula del Referido" name="cedula" type="text">
+                            <input id="correo_referido" class="form-control" placeholder="Email del Referido" name="correo_referido" type="email">
                         </div>
                     </div>
                 </div>
 
-                <button class="btn btn-success margin-bottom-1 mb-1 float-right" type="submit">Referir</button>
+                <button class="btn btn-success margin-bottom-1 mb-1 float-right" type="submit">Recomendar</button>
             </form>
         </div>
 

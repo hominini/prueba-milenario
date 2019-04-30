@@ -16,6 +16,7 @@ class CreateDriversTable extends Migration
         Schema::create('drivers', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->unsigned();
+            $table->bigInteger('patrocinador_id');
             $table->string('cedula', '10')->nullable()->default(null);
             $table->string('pasaporte', '30')->nullable()->default(null);
             $table->string('genero');

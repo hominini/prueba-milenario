@@ -15,8 +15,8 @@ class CreateTableReferencias extends Migration
     {
         Schema::create('referencias', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('driver_id');
-            $table->string('cedula_referido');
+            $table->unsignedBigInteger('id_referente');
+            $table->string('correo_referido');
             $table->boolean('pendiente');
             $table->timestamps();
         });

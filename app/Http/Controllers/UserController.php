@@ -24,13 +24,17 @@ class UserController extends Controller
     public function index()
     {
         $user = Auth::user();
-
+        dd("asdffdsdfaaa");
         if ($user->isAdmin()) {
             return view('pages.admin.home');
         }
 
-        $asignados = \App\Asignacion::all()->where('driver_id', $user->id);
+        $asignados = \App\Asignacion::all()->where('id_referente', $user->id);
 
-        return view('pages.driver.home', compact('asignados') );
+        $patrocinador_id = \App\Driver::where('user_id', $user->id)->get()->first()->patrocinador_id;
+
+        $patrocinador = \App\Models\User::find($patrocinador_id);
+
+        return view('pages.driver.home', compact('asignados', 'patrocinador'));
     }
 }

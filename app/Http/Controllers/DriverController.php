@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Profile;
 use App\Models\User;
 use App\Driver;
+use Illuminate\Support\Facades\DB;
 
 use Validator;
 
@@ -49,50 +50,68 @@ class DriverController extends Controller
             return back()->withErrors($validator)->withInput();
         }
 
-        //$ipAddress = new CaptureIpTrait();
-        $profile = new Profile();
+        DB::transaction(function () use ($request) {
 
-        $user = User::create([
-            'name'             => $request->input('name'),
-            'first_name'       => $request->input('first_name'),
-            'last_name'        => $request->input('last_name'),
-            'email'            => $request->input('email'),
-            'password'         => bcrypt($request->input('password')),
-            'token'            => str_random(64),
-            //'admin_ip_address' => $ipAddress->getClientIp(),
-            'activated'        => 1,
-        ]);
+            //$ipAddress = new CaptureIpTrait();
+            $profile = new Profile();
 
-        $user->profile()->save($profile);
-        $user->attachRole(4);
-        $user->save();
+            try {
+                $user = User::create([
+                    'name'             => $request->input('name'),
+                    'first_name'       => $request->input('first_name'),
+                    'last_name'        => $request->input('last_name'),
+                    'email'            => $request->input('email'),
+                    'password'         => bcrypt($request->input('password')),
+                    'token'            => str_random(64),
+                    //'admin_ip_address' => $ipAddress->getClientIp(),
+                    'activated'        => 1,
+                ]);
 
-        $driver = Driver::create([
-            'user_id'             => $user->id,
-            'cedula'              => $request->input('cedula'),
-            'pasaporte'           => $request->input('pasaporte'),
-            'genero'              => $request->input('genero'),
-            'estado'              => $request->input('estado'),
-            //'google_location'     => $request->input('google_location'),
-            'google_location'     => 'dummy location',
-            'direccion1'          => $request->input('direccion1'),
-            //'direccion2'          => $request->input('direccion2'),
-            'direccion2'          => 'lorem ipsum',
-            'nacimiento'          => $request->input('nacimiento'),
-            'telefono'            => $request->input('telefono'),
-            'celular'             => $request->input('celular'),
-            'num_deposito'        => $request->input('num_deposito'),
-            'p_privacidad'        => ($request->input('en_uso') == 'checked' ? 1 : 0),
-            'a_confidencialidad'  => ($request->input('en_uso') == 'checked' ? 1 : 0),
-        ]);
+                $user->profile()->save($profile);
+                $user->attachRole(4);
 
-        $driver->save();
+                $user->save();
 
-        return redirect('driver.home')->with('success', trans('usersmanagement.createSuccess'));
+                $driver = Driver::create([
+                    'user_id'             => $user->id,
+                    'patrocinador_id'     => $request->input('patrocinador_id'),
+                    'cedula'              => $request->input('cedula'),
+                    'pasaporte'           => $request->input('pasaporte'),
+                    'genero'              => $request->input('genero'),
+                    'estado'              => $request->input('estado'),
+                    //'google_location'     => $request->input('google_location'),
+                    'google_location'     => 'dummy location',
+                    'direccion1'          => $request->input('direccion1'),
+                    //'direccion2'          => $request->input('direccion2'),
+                    'direccion2'          => 'lorem ipsum',
+                    'nacimiento'          => $request->input('nacimiento'),
+                    'telefono'            => $request->input('telefono'),
+                    'celular'             => $request->input('celular'),
+                    'num_deposito'        => $request->input('num_deposito'),
+                    'p_privacidad'        => ($request->input('p_privacidad') == 'checked' ? 1 : 0),
+                    'a_confidencialidad'  => ($request->input('a_confidencialidad') == 'checked' ? 1 : 0),
+                ]);
+                $driver->save();
+            } catch (\Exception $e) {
+                DB::rollback();
+                return abort("503");
+            }
+        });
+
+        return redirect('/home')->with('success', trans('usersmanagement.createSuccess'));
     }
 
     public function create()
     {
-        return view('drivers.create');
+        $patrocinadores = DB::select(
+        DB::raw(
+            'select *
+            from users join role_user
+            where users.id = role_user.user_id and
+            role_id=4'
+          ));
+
+
+        return view('drivers.create', compact('patrocinadores'));
     }
 }

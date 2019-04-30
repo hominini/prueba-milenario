@@ -33,13 +33,12 @@ class AsignacionesController extends Controller
     public function store(Request $request)
     {
         $asignacion = Asignacion::create([
-            'driver_id'       => auth()->user()->id,
-            'cedula_referido' => $request->input('cedula'),
+            'id_referente'       => auth()->user()->id,
+            'correo_referido' => $request->input('correo_referido'),
             'pendiente'       => 1,
         ]);
 
         $asignacion->save();
-
 
         return redirect('/home');
     }
