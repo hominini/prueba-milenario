@@ -35,6 +35,15 @@ class RolesTableSeeder extends Seeder
             ]);
         }
 
+        if (Role::where('slug', '=', 'driver')->first() === null) {
+            $userRole = Role::create([
+                'name'        => 'Driver',
+                'slug'        => 'driver',
+                'description' => 'Conductor',
+                'level'       => 1,
+            ]);
+        }
+
         if (Role::where('slug', '=', 'unverified')->first() === null) {
             $userRole = Role::create([
                 'name'        => 'Unverified',

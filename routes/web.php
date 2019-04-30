@@ -129,3 +129,11 @@ Route::group(['middleware' => ['auth', 'activated', 'role:admin', 'activity', 't
 });
 
 Route::redirect('/php', '/phpinfo', 301);
+
+Route::get('/drivers', 'DriverController@index');
+Route::get('/drivers/create', 'DriverController@create');
+Route::post('/drivers', 'DriverController@store');
+Route::get('/drivers/{driver}', 'DriverController@show');
+
+Route::get('/asignaciones/create', 'AsignacionesController@create');
+Route::post('/asignaciones', 'AsignacionesController@store');

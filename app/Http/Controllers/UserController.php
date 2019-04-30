@@ -29,6 +29,8 @@ class UserController extends Controller
             return view('pages.admin.home');
         }
 
-        return view('pages.user.home');
+        $asignados = \App\Asignacion::all()->where('driver_id', $user->id);
+
+        return view('pages.driver.home', compact('asignados') );
     }
 }
